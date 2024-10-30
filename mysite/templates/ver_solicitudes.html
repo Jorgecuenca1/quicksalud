@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Solicitudes de Servicios{% endblock %}
+
+{% block content %}
+<h2>Solicitudes de Servicio Pendientes</h2>
+
+{% if solicitudes %}
+    <ul>
+        {% for solicitud in solicitudes %}
+            <li>
+                <p>Subservicio: {{ solicitud.subservicio.nombre }}</p>
+                <p>Dirección: {{ solicitud.direccion.direccion }}, {{ solicitud.direccion.ciudad }}</p>
+                <p>Fecha de Solicitud: {{ solicitud.fecha }}</p>
+                <a href="{% url 'responder_solicitud' solicitud.id 'aceptar' %}" class="btn btn-success">Aceptar</a>
+                <a href="{% url 'responder_solicitud' solicitud.id 'rechazar' %}" class="btn btn-danger">Rechazar</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No tienes solicitudes pendientes.</p>
+{% endif %}
+{% endblock %}

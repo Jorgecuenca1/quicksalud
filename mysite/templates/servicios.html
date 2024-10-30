@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Servicios{% endblock %}
+
+{% block content %}
+    <h1>Servicios Disponibles</h1>
+    <ul>
+        {% for servicio in servicios %}
+            <li><a href="{% url 'seleccionar_subservicio' servicio.id %}">{{ servicio.nombre }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

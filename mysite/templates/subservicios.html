@@ -1,0 +1,6 @@
+<h1>{{ servicio.nombre }}</h1>
+<ul>
+    {% for subservicio in subservicios %}
+        <li><a href="{% url 'asignar_direccion' subservicio.id %}">{{ subservicio.nombre }}</a></li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Servicios{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Ingrese la Dirección del Servicio</h2>
+
+    {% if error %}
+        <p style="color: red; font-weight: bold;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" placeholder="Ej. Calle 123 #45-67" required>
+        </div>
+
+        <div class="form-group">
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" placeholder="Ej. Bogotá" required>
+        </div>
+
+        <div class="form-group">
+            <label for="estado">Estado:</label>
+            <input type="text" id="estado" name="estado" placeholder="Ej. Cundinamarca" required>
+        </div>
+
+        <div class="form-group">
+            <label for="codigo_postal">Código Postal:</label>
+            <input type="text" id="codigo_postal" name="codigo_postal" placeholder="Ej. 110111" required>
+        </div>
+
+        <!-- Campos ocultos para latitud y longitud -->
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+
+        <!-- Botón para obtener la ubicación -->
+        <button type="button" onclick="getLocation()">Usar Mi Ubicación</button>
+
+        <!-- Mostrar las coordenadas recogidas -->
+        <p id="location-info" style="color: green; font-weight: bold;"></p>
+
+        <button type="submit">Enviar</button>
+    </form>
+</div>
+
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                document.getElementById('latitude').value = position.coords.latitude;
+                document.getElementById('longitude').value = position.coords.longitude;
+                document.getElementById('location-info').textContent =
+                    "Ubicación obtenida: Latitud = " + position.coords.latitude + ", Longitud = " + position.coords.longitude;
+            },
+            function(error) {
+                alert("Error al obtener la ubicación: " + error.message);
+            });
+        } else {
+            alert("La geolocalización no está soportada por este navegador.");
+        }
+    }
+</script>
+
+<style>
+    .form-container {
+        text-align: center;
+        margin: 0 auto;
+        max-width: 500px;
+    }
+
+    .form-container h2 {
+        color: #4CAF50;
+        margin-bottom: 20px;
+    }
+
+    .styled-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .styled-form input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .styled-form input[type="text"]:focus {
+        outline: none;
+        border-color: #4CAF50;
+    }
+
+    .styled-form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .styled-form button:hover {
+        background-color: #45a049;
+    }
+
+    #location-info {
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}

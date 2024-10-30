@@ -1,0 +1,6 @@
+<h1>Historial de Servicios</h1>
+<ul>
+    {% for item in historial %}
+        <li>{{ item.fecha }} - {{ item.subservicio.nombre }} - {{ item.direccion.direccion }}</li>
+    {% endfor %}
+</ul>
